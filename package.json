@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "devStart": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   "description": "",
   "dependencies": {
     "express": "^5.1.0",
-    "sqlit": "^2.0.0"
+    "nodemon": "^3.1.10",
+    "sqlite3": "^5.1.7"
   }
 }

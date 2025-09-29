@@ -1,0 +1,6 @@
+# All the npm packages
+
+node_modules/
+
+# database
+quizdb.db
