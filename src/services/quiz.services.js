@@ -99,8 +99,48 @@ const getQuestionById = async(questionId) =>
   }
 };
 
+
+const getQuizQuestion = async (quizId) => {
+  try{
+    const quiz = await dbGet(
+      'SELECT * FROM quiz where id = ?',
+      [quizId]
+    );
+    if(!quiz)
+    {
+      throw new Error("Quiz not found");
+    }
+
+    const questions = await dbAll(
+      'SELECT id, quiz_id, text, question_type FROM questions wHERE quiz_id =  ?',
+      [quizId]
+    );
+
+    for(const question of questions)
+    {
+      if(question.question_type === 'mcq')
+      {
+        const options = await dbAll(
+          'SELECT id, question_id, text FROM options WHERE question_id = ?',
+          [question.id]
+        );
+        question.option = options;
+      }
+    }
+    return{
+      quiz: quiz,
+      questions: questions
+    };
+
+  }
+  catch(error){
+    throw new Error(`Error getting quiz questions: ${error.message}`);
+  }
+};
+
 module.exports = {
 createQuiz,
 addQuestion,
+getQuizQuestion,
 };
 
