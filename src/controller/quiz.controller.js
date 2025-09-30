@@ -61,8 +61,28 @@ const addQuestion = async (req, res) =>{
   }
 }
 
+const getQuizQuestion = async (req, res) =>{
+    try{
+        const quizId = req.params.id;
+        const quizData = await quizService.getQuizQuestion(quizId);
+
+        res.status(200).json({
+            success: true,
+            message: "Quiz questions reterived successfully",
+            data: quizData
+        });
+    }
+    catch(error)
+    {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
 
 module.exports = {
     createQuiz,
     addQuestion,
+    getQuizQuestion,
 };
