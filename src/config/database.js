@@ -62,6 +62,31 @@ const createTables = () =>
 
 };
 
+// Adding column for the question type
+
+const addMissingColumns = () =>{
+    const alterQueries = [
+        `ALTER TABLE questions ADD COLUMN question_type TEXT DEFAULT 'mcq'`,
+        `ALTER TABLE questions ADD COLUMN correct_answer TEXT`
+
+    ];
+
+    alterQueries.forEach((query, i) =>{
+        db.run(query, (error) =>{
+            if(error){
+                if(!error.message.includes('duplicate column'))
+                {
+                    console.error(`Error while adding column ${i + 1}: ${error.message}`);
+                }
+            }
+            else{
+                console.log(`Column ${i + 1} added successfully`);
+            }
+        });
+    });
+
+};
 
 createTables();
+addMissingColumns();
 module.exports = db;
