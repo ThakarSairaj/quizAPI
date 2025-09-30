@@ -28,8 +28,41 @@ const createQuiz = async (req, res) =>{
     }
 };
 
+const addQuestion = async (req, res) =>{
+  try{
+    const quizId = req.params.id;
+    const {text, question_type = 'mcq', options, correct_answer} = req.body;
+
+    if(!text || text.trim() === '')
+    {
+      return res.status(400).json({
+        success: false,
+        message: "Question Text is required"
+      });
+    }
+    const question = await quizService.addQuestion(quizId, {
+      text: text.trim(),
+      question_type,
+      options,
+      correct_answer: correct_answer?.trim(),
+    });
+
+    res.status(201).json({
+      success: true,
+      data: question,
+      message: "Question addedd successfully"
+    });
+  }
+  catch(error){
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+}
 
 
 module.exports = {
     createQuiz,
+    addQuestion,
 };
