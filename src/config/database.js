@@ -51,7 +51,7 @@ const createTables = () =>
         {
             if(error)
             {
-                console.error(`Error at table ${i+1} `,error.message);
+                console.error(`Error at table ${i+1} `+ error.message);
             }
             else
             {
@@ -61,6 +61,7 @@ const createTables = () =>
     });
 
 };
+
 
 createTables();
 module.exports = db;
