@@ -8,7 +8,7 @@ const dbRun = (query, params = []) => {
       if (err) {
         reject(err);
       } else {
-        resolve({ lastID: this.lastID }); // ✅ this is the fix
+        resolve({ lastID: this.lastID });
       }
     });
   });
@@ -40,7 +40,67 @@ const createQuiz = async (title) => {
     }
 };
 
+const addQuestion = async (quizId, questionData) => {
+  const {text, question_type = 'mcq', options, correct_answer} = questionData;
+
+  try{
+    const questionResult = await dbRun(
+      'INSERT INTO questions(quiz_id, text, question_type, correct_answer) VALUES(?, ?, ?, ?)',
+      [quizId, text, question_type, correct_answer || null]
+    );
+  const questionId = questionResult.lastID;
+
+  if(question_type === 'mcq' && options && options.length > 0)
+  {
+    for(const option of options)
+    {
+      await dbRun(
+        'INSERT INTO options (question_id, text, is_correct) VALUES(?, ?, ?)',
+        [questionId, option.text, option.is_correct ?1 : 0]
+      );
+    }
+  }
+  return await getQuestionById(questionId);
+}
+
+  catch(error)
+  {
+    throw new Error("Error while adding question" + error.message);
+  }
+};
+
+const getQuestionById = async(questionId) =>
+{
+  try{
+    const question = await dbGet(
+      'SELECT *  FROM questions where id = ?',
+      [questionId]
+
+    );
+    if(!question)
+    {
+      throw new Error("Question Not Found");
+    }
+
+    if(question.question_type === 'mcq')
+    {
+      const options = await dbAll(
+        'SELECT * FROM options WHERE question_id = ?',
+        [questionId]
+      );
+      question.options = options;
+
+    }
+    return question;
+  }
+  catch(error)
+  {
+    throw new Error("Error getting questions:" + error.message);
+  }
+};
+
 module.exports = {
 createQuiz,
+addQuestion,
 };
 
