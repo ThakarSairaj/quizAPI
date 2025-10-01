@@ -41,7 +41,7 @@ You must have the following software installed on your machine:
 
 1.  **Clone the repository:**
     ```
-    git clone [Your Repository URL]
+    git clone https://github.com/ThakarSairaj/quizAPI.git
     ```
 2.  **Navigate into the project directory:**
     ```
@@ -68,8 +68,4 @@ The following are the available endpoints for the API.
 | `POST` | `/api/quizzes/:id/questions` | Adds a new question with options to a specific quiz. | `{ "text": "What is 2+2?", "options": [{ "text": "3" }, { "text": "4", "is_correct": true }] }` | `{ "message": "Question added...", "data": { "id": 1, "text": "..." } }` |
 | `GET`  | `/api/quizzes/:id`          | Fetches all questions for a specific quiz to start playing. **Correct answers are not included.** | (None)                                                                               | `{ "data": [{ "id": 1, "text": "...", "options": [...] }] }`         |
 | `POST` | `/api/quizzes/:id/submit`   | Submits user's answers and returns the score.    | `{ "answers": [{ "question_id": 1, "option_id": 2 }, { "question_id": 2, "option_id": 5 }] }` | `{ "score": 1, "total": 2 }`                                        |
-
-## Running Tests
-
-To run the automated tests for this system, use the following command:
 
