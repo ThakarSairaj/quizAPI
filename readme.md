@@ -59,18 +59,32 @@ quiz-api/
 ```bash
 # Clone the repo
 git clone https://github.com/ThakarSairaj/quizAPI.git
+```
+```bash
+# Change the working directory
 cd quizAPI
-
-# Install dependencies
-npm install
-
-# Run in development mode (with nodemon)
-npm run devStart
-
-# Or start normally
-npm start
 ```
 
+```bash
+# Install dependencies 
+npm install
+```
+```bash
+# Run to start the server
+# Note: This will start the server and the database with "quizdb.db" will be created automatically in the root folder if it is not present there
+npm run devStart
+```
+
+```bash
+# If run "devStart" command doesnt work then try
+npm start
+```
+##  Running Tests
+
+```bash
+# Command to run the tests
+npm test
+```
 ---
 
 ## API Endpoints
@@ -79,18 +93,17 @@ npm start
 
 | Method | Route | Description | Example Body | Example Response |
 |--------|-------|-------------|--------------|------------------|
-| **POST** | `/api/quizzes` | Create a new quiz | `{ "title": "My First Quiz" }` | `{ "message": "Quiz created", "data": { "id": 1, "title": "My First Quiz" } }` |
-| **POST** | `/api/quizzes/:id/questions` | Add a question with options | `{ "text": "What is 2+2?", "options": [{ "text": "3" }, { "text": "4", "is_correct": true }] }` | `{ "message": "Question added", "data": { "id": 1, "text": "What is 2+2?" } }` |
+| **POST** | `/api/quizzes` | Create a new quiz | ``` { "title": "My First Quiz" } ``` | ```{ "success": true, "data": { "id": 1, "title": "My First Quiz", "created_at": "2025-10-02T10:25:00Z" }, "message": "Quiz created successfully" } ``` |
+| **POST** | `/api/quizzes/:id/questions` | Add a question (MCQ or text) | **MCQ:** ```{ "text": "What is 2+2?", "question_type": "mcq", "options": [ { "text": "3", "is_correct": false }, { "text": "4", "is_correct": true } ] } ``` **Text:** ``` { "text": "What is the capital of France?", "question_type": "text", "correct_answer": "Paris" } ``` | ```{ "success": true, "data": { "id": 1, "quiz_id": 1, "text": "What is 2+2?", "question_type": "mcq", "created_at": "2025-10-02T10:30:00Z", "options": [ { "id": 1, "question_id": 1, "text": "3", "is_correct": 0 }, { "id": 2, "question_id": 1, "text": "4", "is_correct": 1 } ] }, "message": "Question added successfully" } ``` |
 
 ### Quiz Taking
 
 | Method | Route | Description | Example Body | Example Response |
 |--------|-------|-------------|--------------|------------------|
-| **GET** | `/api/quizzes/:id` | Fetch all questions for a quiz (without answers) | — | `{ "data": [{ "id": 1, "text": "What is 2+2?", "options": [...] }] }` |
-| **POST** | `/api/quizzes/:id/submit` | Submit answers & get score | `{ "answers": [{ "question_id": 1, "option_id": 2 }] }` | `{ "score": 1, "total": 1 }` |
+| **GET** | `/api/quizzes/:id` | Fetch all questions for a quiz (without answers) | — | ```{ "success": true, "message": "Quiz questions retrieved successfully", "data": { "quiz": { "id": 1, "title": "My First Quiz", "created_at": "2025-10-02T10:25:00Z" }, "questions": [ { "id": 1, "quiz_id": 1, "text": "What is 2+2?", "question_type": "mcq", "options": [ { "id": 1, "question_id": 1, "text": "3" }, { "id": 2, "question_id": 1, "text": "4" } ] } ] } } ``` |
+| **POST** | `/api/quizzes/:id/submit` | Submit answers & get score | ```{ "answers": [ { "question_id": 1, "question_type": "mcq", "selected_option_id": 2 }, { "question_id": 2, "question_type": "text", "text_answer": "Paris" } ] } ``` | ``` { "success": true, "message": "Quiz Submitted successfully", "data": { "score": 2, "total": 2, "percentage": 100, "userResult": [ { "question_id": 1, "correct": true }, { "question_id": 2, "correct": true } ] } } ``` |
 
 ---
-
 ## Running Tests
 
 ```bash
