@@ -6,7 +6,7 @@ const quizRoutes = require('./routes/quiz.routes');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.use('/api/quizzes', quizRoutes);
+app.use('/api', quizRoutes);
 
 app.get('/status', (req, res) =>{
     res.json({
