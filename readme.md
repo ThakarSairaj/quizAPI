@@ -101,7 +101,7 @@ npm test
 | Method | Route | Description | Example Body | Example Response |
 |--------|-------|-------------|--------------|------------------|
 | **GET** | `/api/quizzes/:id` | Fetch all questions for a quiz (without answers) | — | ```{ "success": true, "message": "Quiz questions retrieved successfully", "data": { "quiz": { "id": 1, "title": "My First Quiz", "created_at": "2025-10-02T10:25:00Z" }, "questions": [ { "id": 1, "quiz_id": 1, "text": "What is 2+2?", "question_type": "mcq", "options": [ { "id": 1, "question_id": 1, "text": "3" }, { "id": 2, "question_id": 1, "text": "4" } ] } ] } } ``` |
-| **POST** | `/api/quizzes/:id/submit` | Submit answers & get score | ```{ "answers": [ { "question_id": 1, "question_type": "mcq", "selected_option_id": 2 }, { "question_id": 2, "question_type": "text", "text_answer": "Paris" } ] } ``` | ``` { "success": true, "message": "Quiz Submitted successfully", "data": { "score": 2, "total": 2, "percentage": 100, "userResult": [ { "question_id": 1, "correct": true }, { "question_id": 2, "correct": true } ] } } ``` |
+| **POST** | `/api/quizzes/:id/submit` | Submit answers & get score | ```{ "answers": [ { "question_id": 1, "question_type": "mcq", "selected_option_id": 2 }, { "question_id": 2, "question_type": "text", "text_answer": "Paris" } ] } ``` | ```{ "success": true, "message": "Quiz Submitted successfully", "data": { "score": 2, "total": 2, "percentage": 100, "userResult": [ { "question_id": 1, "correct": true }, { "question_id": 2, "correct": true } ] } } ``` |
 
 ---
 ## Running Tests
@@ -125,7 +125,7 @@ Tests cover core API endpoints (routes, validation, scoring).
 - Add validation for question types (MCQ, text with 300-char limit, etc.).
 - Endpoint to retrieve a list of all available quizzes.
 - More detailed unit tests for scoring logic.
-- Better error handling & validation middleware.
+
 
 ---
 
