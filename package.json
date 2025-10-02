@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "devStart": "nodemon server.js"
+    "devStart": "nodemon server.js",
+    "start": "node index.js",
+    "test": "jest --verbose --forceExit"
   },
   "repository": {
     "type": "git",
@@ -21,5 +23,9 @@
     "express": "^5.1.0",
     "nodemon": "^3.1.10",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "supertest": "^7.1.4"
   }
 }
