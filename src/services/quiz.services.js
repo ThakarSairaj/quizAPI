@@ -1,4 +1,3 @@
-// const { ERROR } = require('sqlite3');
 const db = require('../config/database');
 const {promisify} = require('util');
 
@@ -17,6 +16,9 @@ const dbRun = (query, params = []) => {
 
 const dbGet = promisify(db.get.bind(db));
 const dbAll = promisify(db.all.bind(db));
+
+
+/*  */
 
 const createQuiz = async (title) => {
     try{
@@ -102,19 +104,24 @@ const getQuestionById = async(questionId) =>
 
 const getQuizQuestion = async (quizId) => {
   try{
+
     const quiz = await dbGet(
       'SELECT * FROM quiz where id = ?',
       [quizId]
     );
+
+
     if(!quiz)
     {
       throw new Error("Quiz not found");
     }
 
+
     const questions = await dbAll(
       'SELECT id, quiz_id, text, question_type FROM questions wHERE quiz_id =  ?',
       [quizId]
     );
+
 
     for(const question of questions)
     {
@@ -124,23 +131,119 @@ const getQuizQuestion = async (quizId) => {
           'SELECT id, question_id, text FROM options WHERE question_id = ?',
           [question.id]
         );
-        question.option = options;
+        question.options = options;
       }
     }
+
+
     return{
       quiz: quiz,
       questions: questions
     };
 
   }
+  
   catch(error){
     throw new Error(`Error getting quiz questions: ${error.message}`);
   }
 };
 
+
+
+const submitAnswers = async (quizId, answers) => {
+  try {
+
+    const quiz = await dbGet(
+      'SELECT * FROM quiz WHERE id = ?',
+      [quizId]
+    );
+
+
+    if (!quiz) {
+      throw new Error('Quiz not found');
+    }
+
+
+    let score = 0;
+    const totalQuestions = answers.length;
+    const userResult = [];
+
+
+    for (const answer of answers) {
+      const { question_id, question_type, selected_option_id, text_answer } = answer;
+
+      const question = await dbGet(
+        'SELECT * FROM questions WHERE id = ? AND quiz_id = ?',
+        [question_id, quizId]
+      );
+
+
+      if (!question) {
+        userResult.push({
+          question_id,
+          correct: false,
+          error: 'Question not found'
+        });
+        continue;
+      }
+
+
+      let isCorrect = false;
+
+      
+      if (question_type === 'mcq') {
+        const selectedOption = await dbGet(
+          'SELECT * FROM options WHERE id = ? AND question_id = ?',
+          [selected_option_id, question_id]
+        );
+
+        
+        if (selectedOption && selectedOption.is_correct === 1) {
+          isCorrect = true;
+        }
+      } 
+      
+      else if (question_type === 'text') {
+        if (
+          text_answer &&
+          question.correct_answer &&
+          text_answer.toLowerCase().trim() === question.correct_answer.toLowerCase().trim()
+        ) {
+          isCorrect = true;
+        }
+      }
+
+      if (isCorrect) {
+        score++;
+      }
+
+      userResult.push({
+        question_id,
+        correct: isCorrect
+      });
+    }
+
+    
+    return {
+      score,
+      total: totalQuestions,
+      percentage: Math.round((score / totalQuestions) * 100),
+      userResult
+
+    };
+  } 
+  
+  catch (error) {
+    throw new Error(`Error while submitting quiz: ${error.message}`);
+  }
+};
+
+
 module.exports = {
 createQuiz,
 addQuestion,
 getQuizQuestion,
+submitAnswers,
+
 };
 
