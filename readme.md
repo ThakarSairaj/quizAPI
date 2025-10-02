@@ -1,58 +1,60 @@
-# 📖 quizAPI — Online Quiz Application API
+# quizAPI — Online Quiz Application API
 
 A RESTful backend API for creating and taking quizzes, built with **Node.js**, **Express**, and **SQLite**.  
 This is my submission for the **Associate Software Engineer (ASE) Challenge**.
 
 ---
 
-## 🧩 Overview & Motivation
+## Overview & Motivation
 
 This project provides the backend logic for a quiz system — create quizzes, add questions, take quizzes, and calculate scores.  
 It demonstrates RESTful API design, clean architecture, and testing practices.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Language:** JavaScript
 - **Runtime:** Node.js
 - **Framework:** Express.js
 - **Database:** SQLite
 - **DB Library:** sqlite3
-- **Testing:** Jest + Supertest (from test folder usage)
+- **Testing:** Jest + Supertest
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 quiz-api/
 ├── src/
 │   ├── config/
-│   │     └── database.js        # SQLite connection & schema
+│   │     └── database.js        
 │   ├── controllers/
-│   │     └── quiz.controller.js # Request/response handlers
+│   │     └── quiz.controller.js 
 │   ├── routes/
-│   │     └── quiz.routes.js     # API endpoint definitions
+│   │     └── quiz.routes.js     
 │   ├── services/
-│   │     └── quiz.service.js    # Business logic & database queries
-│   └── app.js                   # Express app configuration
+│   │     └── quiz.service.js    
+│   └── app.js                   
 ├── test/
-│   └── quiz.routes.test.js      # Automated tests
-├── index.js                     # Server entry point
+│   └── quiz.routes.test.js  
+├── .gitignore
+├── index.js                     
+├── package-lock.json
 ├── package.json
-└── README.md
+└── readme.md
 ```
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
-### ✅ Prerequisites
+### Prerequisites
 - Node.js (v18.x or later recommended)
 - npm (comes with Node.js)
 
-### ⚡ Installation & Running Locally
+### Installation & Running Locally
 
 ```bash
 # Clone the repo
@@ -62,21 +64,16 @@ cd quizAPI
 # Install dependencies
 npm install
 
-# Start the server
+# Run in development mode (with nodemon)
+npm run devStart
+
+# Or start normally
 npm start
-```
-
-The server will run at **http://localhost:3000**.  
-Health check available at: [http://localhost:3000/health](http://localhost:3000/health).
-
-If you use nodemon for development, run:
-```bash
-npm run dev
 ```
 
 ---
 
-## 📌 API Endpoints
+## API Endpoints
 
 ### Quiz Management
 
@@ -94,7 +91,7 @@ npm run dev
 
 ---
 
-## 🧪 Running Tests
+## Running Tests
 
 ```bash
 npm test
@@ -104,7 +101,7 @@ Tests cover core API endpoints (routes, validation, scoring).
 
 ---
 
-## ✅ What’s Done & What’s Next
+## What’s Done & What’s Next
 
 ### Completed
 - Core endpoints (create quiz, add questions, fetch quiz, submit answers).
@@ -119,14 +116,10 @@ Tests cover core API endpoints (routes, validation, scoring).
 
 ---
 
-## ✍️ Design Choices
+## Design Choices
 
 - **Separation of concerns:** routes → controllers → services → database.  
 - **Scoring logic:** compares submitted answers against DB and returns `{ score, total }`.  
 - **SQLite:** lightweight DB choice, perfect for a self-contained challenge project.  
 
 ---
-
-## 📜 License
-
-This project is licensed under the MIT License.
