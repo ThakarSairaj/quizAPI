@@ -90,7 +90,7 @@ npm test
 ---
 
 ## API Endpoints
-
+```Port Number is 2800```
 ### Quiz Management
 
 | Method | Route | Description | Example Body | Example Response |
@@ -105,6 +105,8 @@ npm test
 | **GET** | `/api/quizzes/:id` | Fetch all questions for a quiz (without answers) | — | ```{ "success": true, "message": "Quiz questions retrieved successfully", "data": { "quiz": { "id": 1, "title": "My First Quiz", "created_at": "2025-10-02T10:25:00Z" }, "questions": [ { "id": 1, "quiz_id": 1, "text": "What is 2+2?", "question_type": "mcq", "options": [ { "id": 1, "question_id": 1, "text": "3" }, { "id": 2, "question_id": 1, "text": "4" } ] } ] } } ``` |
 | **POST** | `/api/quizzes/:id/submit` | Submit answers & get score | ```{ "answers": [ { "question_id": 1, "question_type": "mcq", "selected_option_id": 2 }, { "question_id": 2, "question_type": "text", "text_answer": "Paris" } ] } ``` | ```{ "success": true, "message": "Quiz Submitted successfully", "data": { "score": 2, "total": 2, "percentage": 100, "userResult": [ { "question_id": 1, "correct": true }, { "question_id": 2, "correct": true } ] } } ``` |
 
+
+```Note```:- You can also visit to the screenshot section there simple example with body is given [link](#screenshot-of-working-api-in-postman)
 ---
 ## Running Tests
 
@@ -116,10 +118,10 @@ Tests cover core API endpoints (routes, validation, scoring).
 
 ---
 
-# Screenshot of working API in Postman
+## Screenshot of working API in Postman
 
 **1 Creating Quiz**
-![Creating Quiz](./outputs/image.png)
+![Creating Quiz](./outputs/createQuiz.png)
 ```bash
 HTTP Method :- POST
 URL :- http://localhost:2800/api/quizzes
@@ -132,11 +134,11 @@ Body :-
 **2 Adding Question**
 
 Screenshot 1
-![alt text](./outputs/image-1.png)
+![body](./outputs/addQuestions.png)
 
 
 Screenshot 2
-![alt text](./outputs/image-2.png)
+![response](./outputs/addQuestion2.png)
 
 ```bash
 HTTP Method :- POST
@@ -155,6 +157,33 @@ Body :-
 }
 
 ```
+**3 Get Questions**
+![Getting Questions](./outputs/getQuestions.png)
+```bash
+HTTP Method :- GET
+URL :- http://localhost:2800/api/quizzes/1
+```
+
+**4 Submit Quiz**
+![alt text](./outputs/submit.png)
+```bash
+
+HTTP Method :- POST
+URL :- http://localhost:2800/api/quizzes/1/submit
+Body :- 
+{
+  "answers": [
+    {
+      "question_id": 1,
+      "question_type": "mcq",
+      "selected_option_id": 2
+    }
+  ]
+}
+
+
+```
+
 
 ## What’s Done & What’s Next
 
