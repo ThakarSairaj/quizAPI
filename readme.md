@@ -27,6 +27,7 @@ It demonstrates RESTful API design, clean architecture, and testing practices.
 
 ```
 quiz-api/
+├── outputs/
 ├── src/
 │   ├── config/
 │   │     └── database.js        
