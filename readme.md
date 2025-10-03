@@ -51,9 +51,11 @@ quiz-api/
 ##  Getting Started
 
 ### Prerequisites
-- Node.js (v18.x or later recommended)
+- Node.js (v18.x or later recommended) [Nodejs](https://nodejs.org/en)
 - npm (comes with Node.js)
-
+- Postman [Postman](https://www.postman.com/)
+- SQLite [SQLite](https://sqlite.org/2025/sqlite-tools-win-x64-3500400.zip)
+- To install SQLite and configure you can refer to [YOUTUBE](https://www.youtube.com/watch?v=L3FwRRx6bqo) video
 ### Installation & Running Locally
 
 ```bash
@@ -113,6 +115,28 @@ npm test
 Tests cover core API endpoints (routes, validation, scoring).
 
 ---
+
+# Screenshot of working API in Postman
+
+**1 Creating Quiz**
+![Creating Quiz](image.png)
+```bash
+HTTP Method :- POST
+URL :- http://localhost:2800/api/quizzes
+Body :- 
+{ 
+    "title": "GK Quiz" 
+}
+
+```
+**2 Adding Question**
+
+Screenshot 1
+![alt text](image-1.png)
+
+
+Screenshot 2
+![alt text](image-2.png)
 
 ## What’s Done & What’s Next
 
