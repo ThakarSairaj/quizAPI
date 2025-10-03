@@ -119,7 +119,7 @@ Tests cover core API endpoints (routes, validation, scoring).
 # Screenshot of working API in Postman
 
 **1 Creating Quiz**
-![Creating Quiz](image.png)
+![Creating Quiz](./outputs/image.png)
 ```bash
 HTTP Method :- POST
 URL :- http://localhost:2800/api/quizzes
@@ -132,11 +132,29 @@ Body :-
 **2 Adding Question**
 
 Screenshot 1
-![alt text](image-1.png)
+![alt text](./outputs/image-1.png)
 
 
 Screenshot 2
-![alt text](image-2.png)
+![alt text](./outputs/image-2.png)
+
+```bash
+HTTP Method :- POST
+URL :- http://localhost:2800/api/quizzes/1/questions
+Body :- 
+{ 
+    {
+    "text": "What is the boiling point of water?",
+    "type": "multiple_choice",
+    "options": [
+        { "text": "90°C", "is_correct": false },
+        { "text": "100°C", "is_correct": true }
+    ]
+    }
+
+}
+
+```
 
 ## What’s Done & What’s Next
 
