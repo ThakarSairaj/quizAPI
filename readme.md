@@ -96,17 +96,17 @@ npm test
 | Method | Route | Description | Example Body | Example Response |
 |--------|-------|-------------|--------------|------------------|
 | **POST** | `/api/quizzes` | Create a new quiz | ``` { "title": "My First Quiz" } ``` | ```{ "success": true, "data": { "id": 1, "title": "My First Quiz", "created_at": "2025-10-02T10:25:00Z" }, "message": "Quiz created successfully" } ``` |
-| **POST** | `/api/quizzes/:id/questions` | Add a question (MCQ or text) | **MCQ:** ```{ "text": "What is 2+2?", "question_type": "mcq", "options": [ { "text": "3", "is_correct": false }, { "text": "4", "is_correct": true } ] } ``` **Text:** ``` { "text": "What is the capital of France?", "question_type": "text", "correct_answer": "Paris" } ``` | ```{ "success": true, "data": { "id": 1, "quiz_id": 1, "text": "What is 2+2?", "question_type": "mcq", "created_at": "2025-10-02T10:30:00Z", "options": [ { "id": 1, "question_id": 1, "text": "3", "is_correct": 0 }, { "id": 2, "question_id": 1, "text": "4", "is_correct": 1 } ] }, "message": "Question added successfully" } ``` |
+| **POST** | `/api/quizzes/:id/questions` | Add a question (MCQ or text) | **MCQ:** ```{{   "text": "What is the boiling point of water?","question_type": "mcq",    "options": [        { "text": "90°C", "is_correct": false },        { "text": "100°C", "is_correct": true }    ]}} ``` **Text:** ``` {  "text": "What is the capital of France?",  "question_type": "text",  "correct_answer": "Paris"} ``` | ```{ "success": true, "data": { "id": 1, "quiz_id": 1, "text": "What is 2+2?", "question_type": "mcq", "created_at": "2025-10-02T10:30:00Z", "options": [ { "id": 1, "question_id": 1, "text": "3", "is_correct": 0 }, { "id": 2, "question_id": 1, "text": "4", "is_correct": 1 } ] }, "message": "Question added successfully" } ``` |
 
 ### Quiz Taking
 
 | Method | Route | Description | Example Body | Example Response |
 |--------|-------|-------------|--------------|------------------|
 | **GET** | `/api/quizzes/:id` | Fetch all questions for a quiz (without answers) | — | ```{ "success": true, "message": "Quiz questions retrieved successfully", "data": { "quiz": { "id": 1, "title": "My First Quiz", "created_at": "2025-10-02T10:25:00Z" }, "questions": [ { "id": 1, "quiz_id": 1, "text": "What is 2+2?", "question_type": "mcq", "options": [ { "id": 1, "question_id": 1, "text": "3" }, { "id": 2, "question_id": 1, "text": "4" } ] } ] } } ``` |
-| **POST** | `/api/quizzes/:id/submit` | Submit answers & get score | ```{ "answers": [ { "question_id": 1, "question_type": "mcq", "selected_option_id": 2 }, { "question_id": 2, "question_type": "text", "text_answer": "Paris" } ] } ``` | ```{ "success": true, "message": "Quiz Submitted successfully", "data": { "score": 2, "total": 2, "percentage": 100, "userResult": [ { "question_id": 1, "correct": true }, { "question_id": 2, "correct": true } ] } } ``` |
+| **POST** | `/api/quizzes/:id/submit` | Submit answers & get score | ```{  "answers": [ {      "question_id": 1, "question_type": "mcq",      "selected_option_id": 2    }  ]}, {{"answers": [{"question_id": 2,"question_type": "text","text_answer": "Paris"}]} ``` | ```{ "success": true, "message": "Quiz Submitted successfully", "data": { "score": 2, "total": 2, "percentage": 100, "userResult": [ { "question_id": 1, "correct": true }, { "question_id": 2, "correct": true } ] } } ``` |
 
 
-```Note```:- You can also visit to the screenshot section there simple example with body is given [link](#screenshot-of-working-api-in-postman)
+```Note```:- You can also visit to the screenshot section there is a simple example with body is given [link](#screenshot-of-working-api-in-postman)
 ---
 ## Running Tests
 
@@ -125,7 +125,9 @@ Tests cover core API endpoints (routes, validation, scoring).
 ```bash
 HTTP Method :- POST
 URL :- http://localhost:2800/api/quizzes
-Body :- 
+```
+Request Body :- 
+```json
 { 
     "title": "GK Quiz" 
 }
@@ -143,18 +145,21 @@ Screenshot 2
 ```bash
 HTTP Method :- POST
 URL :- http://localhost:2800/api/quizzes/1/questions
-Body :- 
-{ 
+```
+
+Request Body :- 
+```json
+ 
     {
     "text": "What is the boiling point of water?",
-    "type": "multiple_choice",
+    "question_type": "mcq",
     "options": [
         { "text": "90°C", "is_correct": false },
         { "text": "100°C", "is_correct": true }
     ]
     }
 
-}
+
 
 ```
 **3 Get Questions**
@@ -170,7 +175,9 @@ URL :- http://localhost:2800/api/quizzes/1
 
 HTTP Method :- POST
 URL :- http://localhost:2800/api/quizzes/1/submit
-Body :- 
+```
+Request Body :-
+```json 
 {
   "answers": [
     {
@@ -183,27 +190,70 @@ Body :-
 
 
 ```
+**5 Text Question**
+
+**5.1**Adding Question
+![alt text](./outputs/text.png)
+
+```bash
+HTTP Method :- POST
+URL :- http://localhost:2800/api/quizzes/1/questions
+```
+Request Body :- 
+```json
+{
+  "text": "What is the capital of France?",
+  "question_type": "text",
+  "correct_answer": "Paris"
+}
+
+```
+**5.2** Submitting Answer
+![alt text](./outputs/answer.png)
+```bash
+HTTP Method :- POST
+URL :- http://localhost:2800/api/quizzes/1/submit
+```
+Request Body :- 
+```json
+{
+  "answers": [
+    {
+      "question_id": 2,
+      "question_type": "text",
+      "text_answer": "Paris"
+    }
+  ]
+}
 
 
-## What’s Done & What’s Next
-
-### Completed
-- Core endpoints (create quiz, add questions, fetch quiz, submit answers).
-- SQLite-based persistence.
-- Basic automated test cases.
-
-### Planned / Bonus Features
-- Add validation for question types (MCQ, text with 300-char limit, etc.).
-- Endpoint to retrieve a list of all available quizzes.
-- More detailed unit tests for scoring logic.
+```
 
 
----
+**6 Char Validation**
+![Charvalidation](./outputs/charValid.png)
 
-## Design Choices
+```bash
 
-- **Separation of concerns:** routes → controllers → services → database.  
-- **Scoring logic:** compares submitted answers against DB and returns `{ score, total }`.  
-- **SQLite:** lightweight DB choice, perfect for a self-contained challenge project.  
+HTTP Method :- POST
+URL :- http://localhost:2800/api/quizzes/1/questions
+```
 
----
+Request Body :- 
+```json
+ { "text": "What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?What is the boiling point of water?",
+  "question_type": "mcq",
+  "options": [
+    { "text": "90°C", "is_correct": false },
+    { "text": "100°C", "is_correct": true }
+  ]
+}
+
+```
+Response Body:- 
+```json
+{
+    "error": "ValidationError",
+    "message": "[\n  {\n    \"origin\": \"string\",\n    \"code\": \"too_big\",\n    \"maximum\": 300,\n    \"inclusive\": true,\n    \"path\": [\n      \"text\"\n    ],\n    \"message\": \"Too big: expected string to have <=300 characters\"\n  }\n]"
+}
+```
