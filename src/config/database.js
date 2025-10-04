@@ -30,11 +30,14 @@ const createTables = () =>
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`,
 
         `CREATE TABLE IF NOT EXISTS questions(
-        id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        quiz_id INTEGER NOT NULL, 
-        text TEXT NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY(quiz_id) REFERENCES quiz(id) ON DELETE CASCADE)`,
+            id INTEGER PRIMARY KEY AUTOINCREMENT, 
+            quiz_id INTEGER NOT NULL, 
+            text TEXT NOT NULL,
+            question_type TEXT DEFAULT 'mcq',
+            correct_answer TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY(quiz_id) REFERENCES quiz(id) ON DELETE CASCADE
+        )`,
 
         `CREATE TABLE IF NOT EXISTS options(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -62,31 +65,8 @@ const createTables = () =>
 
 };
 
-// Adding column for the question type
 
-const addMissingColumns = () =>{
-    const alterQueries = [
-        `ALTER TABLE questions ADD COLUMN question_type TEXT DEFAULT 'mcq'`,
-        `ALTER TABLE questions ADD COLUMN correct_answer TEXT`
-
-    ];
-
-    alterQueries.forEach((query, i) =>{
-        db.run(query, (error) =>{
-            if(error){
-                if(!error.message.includes('duplicate column'))
-                {
-                    console.error(`Error while adding column ${i + 1}: ${error.message}`);
-                }
-            }
-            else{
-                console.log(`Column ${i + 1} added successfully`);
-            }
-        });
-    });
-
-};
 
 createTables();
-addMissingColumns();
+
 module.exports = db;
