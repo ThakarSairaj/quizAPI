@@ -15,7 +15,8 @@ const db = new sqlite3.Database(dbPath, error =>
         console.log("Connection successful");
     }
 
-});
+}
+);
 
 
 // Schemas for the database
